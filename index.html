@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Glance Tuition Institute</title>
+    <link rel="icon" type="image/svg+xml" href="./public/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Remove all transitions and transforms */
+        * {
+            transition: none !important;
+            transform: none !important;
+        }
+        
+        .faculty-card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .faculty-card:hover {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .faculty-card .img-wrapper {
+            position: relative;
+            padding-top: 100%; /* Creates a perfect square */
+            overflow: hidden;
+            border-bottom: 3px solid #007bff;
+        }
+        .faculty-card .card-img-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .faculty-card .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+        .faculty-specialties {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .faculty-specialties .badge {
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            border-radius: 20px;
+            background-color: #007bff;
+        }
+        .faculty-specialties .badge:hover {
+            background-color: #007bff;
+        }
+        .faculty-card .card-title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+        }
+        .faculty-card .text-muted {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: #6c757d;
+        }
+        .faculty-card .card-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            color: #2c3e50;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: #007bff;
+            border-radius: 3px;
+        }
+        .section-subtitle {
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .faculty-section {
+            background-color: #f8f9fa;
+            padding: 5rem 0;
+        }
+        @media (max-width: 768px) {
+            .faculty-card {
+                margin-bottom: 30px;
+            }
+            .faculty-card .img-wrapper {
+                padding-top: 75%; /* Slightly shorter on mobile */
+            }
+            .section-subtitle {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+        .navbar-brand img {
+            height: 40px;
+        }
+        .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+        }
+        .nav-link:hover {
+            color: #333 !important;
+            background-color: transparent;
+        }
+        .nav-link.active {
+            color: #007bff !important;
+        }
+        /* Remove hover effects from all navigation elements */
+        .navbar-nav .nav-item:hover,
+        .navbar-nav .nav-link:hover,
+        .dropdown-item:hover {
+            background-color: transparent;
+            color: inherit;
+        }
+        .dropdown-menu {
+            border-radius: 8px;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .dropdown-item {
+            padding: 0.5rem 1.5rem;
+        }
+        .dropdown-item:hover {
+            background-color: transparent;
+        }
+        /* Course cards */
+        .course-card {
+            border: 1px solid #eee;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .course-card:hover {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        /* Buttons */
+        .btn:hover {
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="./public/images/logo.svg" alt="Just Glance Tuition Institute" height="40">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#faculty">Faculty</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="content-wrapper">
+            <header id="home" class="hero-section">
+                <div class="container text-center py-5">
+                    <h1>Welcome to Just Glance Tuition</h1>
+                    <p class="lead">Empowering students with quality education</p>
+                    <a href="#courses" class="btn btn-primary btn-lg">Explore Courses</a>
+                </div>
+            </header>
+
+            <main>
+                <section id="courses" class="py-5 bg-light">
+                    <div class="container">
+                        <h2 class="text-center mb-5">Our Courses</h2>
+                        <div class="row g-4">
+                            <!-- JEE Advanced Course -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">JEE Advanced</h5>
+                                        <p class="card-text">Comprehensive preparation for IIT-JEE Advanced with focus on Physics, Chemistry, and Mathematics.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="bi bi-clock me-2"></i>Duration: 12 months</li>
+                                            <li><i class="bi bi-calendar me-2"></i>Schedule: Mon/Wed/Fri</li>
+                                            <li><i class="bi bi-currency-rupee me-2"></i>Fee: ₹45,000/year</li>
+                                        </ul>
+                                        <button class="btn btn-primary mt-3 enroll-btn" 
+                                                data-course="JEE Advanced" 
+                                                data-fee="45000" 
+                                                data-duration="12 months"
+                                                data-schedule="Mon/Wed/Fri"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#enrollmentModal">Enroll Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- NEET Course -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">NEET Preparation</h5>
+                                        <p class="card-text">Expert guidance for NEET medical entrance exam with Biology, Physics, and Chemistry coverage.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="bi bi-clock me-2"></i>Duration: 12 months</li>
+                                            <li><i class="bi bi-calendar me-2"></i>Schedule: Tue/Thu/Sat</li>
+                                            <li><i class="bi bi-currency-rupee me-2"></i>Fee: ₹40,000/year</li>
+                                        </ul>
+                                        <button class="btn btn-primary mt-3 enroll-btn" 
+                                                data-course="NEET Preparation" 
+                                                data-fee="40000" 
+                                                data-duration="12 months"
+                                                data-schedule="Tue/Thu/Sat"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#enrollmentModal">Enroll Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Foundation Course -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">Foundation Course</h5>
+                                        <p class="card-text">Strong foundation program for Class 9th & 10th students preparing for board exams and competitive exams.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="bi bi-clock me-2"></i>Duration: 6 months</li>
+                                            <li><i class="bi bi-calendar me-2"></i>Schedule: Mon to Fri</li>
+                                            <li><i class="bi bi-currency-rupee me-2"></i>Fee: ₹25,000/semester</li>
+                                        </ul>
+                                        <button class="btn btn-primary mt-3 enroll-btn" 
+                                                data-course="Foundation Course" 
+                                                data-fee="25000" 
+                                                data-duration="6 months"
+                                                data-schedule="Mon to Fri"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#enrollmentModal">Enroll Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Board Exam Preparation -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">Board Exam Preparation</h5>
+                                        <p class="card-text">Focused preparation for Class 12th board exams with subject-wise expert guidance.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="bi bi-clock me-2"></i>Duration: 4 months</li>
+                                            <li><i class="bi bi-calendar me-2"></i>Schedule: Flexible</li>
+                                            <li><i class="bi bi-currency-rupee me-2"></i>Fee: ₹20,000/course</li>
+                                        </ul>
+                                        <button class="btn btn-primary mt-3 enroll-btn" 
+                                                data-course="Board Exam Preparation" 
+                                                data-fee="20000" 
+                                                data-duration="4 months"
+                                                data-schedule="Flexible"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#enrollmentModal">Enroll Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Crash Course -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">Crash Course</h5>
+                                        <p class="card-text">Intensive revision and preparation for last-minute exam preparation.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="bi bi-clock me-2"></i>Duration: 2 months</li>
+                                            <li><i class="bi bi-calendar me-2"></i>Schedule: Daily</li>
+                                            <li><i class="bi bi-currency-rupee me-2"></i>Fee: ₹15,000/course</li>
+                                        </ul>
+                                        <button class="btn btn-primary mt-3 enroll-btn" 
+                                                data-course="Crash Course" 
+                                                data-fee="15000" 
+                                                data-duration="2 months"
+                                                data-schedule="Daily"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#enrollmentModal">Enroll Now</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Olympiad Training -->
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary">Olympiad Training</h5>
+                                        <p class="card-text">Specialized training for Mathematics and Science Olympiads at national and international levels.</p>
+                                        <ul class="list-unstyled">
+                                            <li><i class="bi bi-clock me-2"></i>Duration: 6 months</li>
+                                            <li><i class="bi bi-calendar me-2"></i>Schedule: Weekends</li>
+                                            <li><i class="bi bi-currency-rupee me-2"></i>Fee: ₹30,000/course</li>
+                                        </ul>
+                                        <button class="btn btn-primary mt-3 enroll-btn" 
+                                                data-course="Olympiad Training" 
+                                                data-fee="30000" 
+                                                data-duration="6 months"
+                                                data-schedule="Weekends"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#enrollmentModal">Enroll Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Faculty Section -->
+                <section class="faculty-section py-5" id="faculty">
+                    <div class="container">
+                        <div class="row text-center mb-5">
+                            <div class="col-12">
+                                <h2 class="section-title mb-4">Our Expert Faculty</h2>
+                                <p class="section-subtitle mb-5">Learn from the best minds in education</p>
+                            </div>
+                        </div>
+                        <div class="row g-4 justify-content-center">
+                            <!-- Faculty Member 1 -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="faculty-card">
+                                    <div class="img-wrapper">
+                                        <img src="./public/images/faculty1.jpg" class="card-img-top" alt="Dr. Rajesh Kumar">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Dr. Rajesh Kumar</h5>
+                                        <p class="text-muted">Mathematics Expert</p>
+                                        <p class="card-text">Ph.D. in Mathematics<br>15+ years of teaching experience</p>
+                                        <div class="faculty-specialties">
+                                            <span class="badge bg-primary">Calculus</span>
+                                            <span class="badge bg-primary">Linear Algebra</span>
+                                            <span class="badge bg-primary">Statistics</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Faculty Member 2 -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="faculty-card">
+                                    <div class="img-wrapper">
+                                        <img src="./public/images/faculty2.jpg" class="card-img-top" alt="Dr. Priya Sharma">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Dr. Priya Sharma</h5>
+                                        <p class="text-muted">Physics Specialist</p>
+                                        <p class="card-text">Ph.D. in Physics<br>12 years of teaching experience</p>
+                                        <div class="faculty-specialties">
+                                            <span class="badge bg-primary">Mechanics</span>
+                                            <span class="badge bg-primary">Electromagnetism</span>
+                                            <span class="badge bg-primary">Modern Physics</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Faculty Member 3 -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="faculty-card">
+                                    <div class="img-wrapper">
+                                        <img src="./public/images/faculty3.jpg" class="card-img-top" alt="Prof. Arun Verma">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Prof. Arun Verma</h5>
+                                        <p class="text-muted">Chemistry Expert</p>
+                                        <p class="card-text">M.Sc. in Chemistry<br>10+ years of teaching experience</p>
+                                        <div class="faculty-specialties">
+                                            <span class="badge bg-primary">Organic Chemistry</span>
+                                            <span class="badge bg-primary">Physical Chemistry</span>
+                                            <span class="badge bg-primary">JEE Preparation</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Faculty Member 4 -->
+                            <div class="col-md-6 col-lg-3">
+                                <div class="faculty-card">
+                                    <div class="img-wrapper">
+                                        <img src="./public/images/faculty4.jpg" class="card-img-top" alt="Ms. Anjali Desai">
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Ms. Anjali Desai</h5>
+                                        <p class="text-muted">Biology Specialist</p>
+                                        <p class="card-text">M.Sc. in Biology<br>8 years of teaching experience</p>
+                                        <div class="faculty-specialties">
+                                            <span class="badge bg-primary">Zoology</span>
+                                            <span class="badge bg-primary">Botany</span>
+                                            <span class="badge bg-primary">NEET Preparation</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact" class="py-5">
+                    <div class="container">
+                        <h2 class="text-center mb-4">Contact Us</h2>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <form id="contact-form">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" id="message" rows="4" placeholder="Your Message" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Enrollment Modal -->
+    <div class="modal fade" id="enrollmentModal" tabindex="-1" aria-labelledby="enrollmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="enrollmentModalLabel">Course Enrollment</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="enrollmentForm" class="needs-validation" novalidate>
+                        <div class="row g-3">
+                            <!-- Course Information -->
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <h6 class="course-name mb-2">Course: <span id="selectedCourse"></span></h6>
+                                    <p class="mb-1">Duration: <span id="courseDuration"></span></p>
+                                    <p class="mb-1">Schedule: <span id="courseSchedule"></span></p>
+                                    <p class="mb-0">Fee: ₹<span id="courseFee"></span></p>
+                                </div>
+                            </div>
+
+                            <!-- Personal Information -->
+                            <div class="col-md-6">
+                                <label for="studentName" class="form-label">Full Name*</label>
+                                <input type="text" class="form-control" id="studentName" required>
+                                <div class="invalid-feedback">Please enter your full name</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="studentEmail" class="form-label">Email*</label>
+                                <input type="email" class="form-control" id="studentEmail" required>
+                                <div class="invalid-feedback">Please enter a valid email</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="studentPhone" class="form-label">Phone Number*</label>
+                                <input type="tel" class="form-control" id="studentPhone" pattern="[0-9]{10}" required>
+                                <div class="invalid-feedback">Please enter a valid 10-digit phone number</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="studentDOB" class="form-label">Date of Birth*</label>
+                                <input type="date" class="form-control" id="studentDOB" required>
+                                <div class="invalid-feedback">Please enter your date of birth</div>
+                            </div>
+                            <div class="col-12">
+                                <label for="studentAddress" class="form-label">Address*</label>
+                                <textarea class="form-control" id="studentAddress" rows="2" required></textarea>
+                                <div class="invalid-feedback">Please enter your address</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="previousSchool" class="form-label">Previous School/College</label>
+                                <input type="text" class="form-control" id="previousSchool">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="previousGrade" class="form-label">Previous Grade/Percentage</label>
+                                <input type="text" class="form-control" id="previousGrade">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitEnrollment">Submit Enrollment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2025 Just Glance Tuition. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

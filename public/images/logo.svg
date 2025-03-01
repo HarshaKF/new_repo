@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="50" viewBox="0 0 200 50" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .logo-text { font-family: 'Arial', sans-serif; font-weight: bold; }
+        .tagline { font-family: 'Arial', sans-serif; font-size: 12px; }
+    </style>
+    <!-- Background Circle -->
+    <circle cx="25" cy="25" r="20" fill="#007bff"/>
+    <!-- Book Icon -->
+    <path d="M20 15 L30 15 L30 35 L20 35 C18 35 16 33 16 31 L16 19 C16 17 18 15 20 15" fill="white"/>
+    <path d="M20 15 L20 35" stroke="#007bff" stroke-width="1"/>
+    <!-- Text -->
+    <text x="45" y="28" class="logo-text" fill="#2c3e50" font-size="20">Just Glance</text>
+    <text x="45" y="40" class="tagline" fill="#7f8c8d">Tuition Institute</text>
+</svg>
