@@ -15,10 +15,18 @@ JustGlanceTuition is an innovative online platform designed to simplify and enha
 - **Backend:** Node.js, Express.js  
 - **Database:** MongoDB  
 - **Authentication:** Firebase/Auth0  
-- **Payment Integration:** Stripe  
+- **Payment Integration:** Stripe   
 
-## 🛠 Installation & Setup
-1. Clone the repository:  
-   ```bash
-   git clone https://github.com/your-username/JustGlanceTuition.git
-   cd JustGlanceTuition
+## Prerequisites
+- Node.js (v14+ recommended)
+- MySQL Database
+
+## Setup Instructions
+
+1. Clone the repository
+```bash
+git clone https://github.com/Harshakf95/new_repo.git
+cd new_repo
+
+npm install
+
