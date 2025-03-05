@@ -19,21 +19,26 @@ $(document).ready(function() {
     const loginButton = $('#loginButton');
     const logoutButton = $('#logoutButton');
 
+    console.log('Dashboard JS loaded');
+
     // Check login status on page load
     checkLoginStatus();
 
     // Login button click handler
     loginButton.on('click', function() {
+        console.log('Login button clicked');
         window.location.href = '/login.html';
     });
 
     // Logout button click handler
     logoutButton.on('click', function() {
+        console.log('Logout button clicked');
         fetch('/api/logout', {
             method: 'POST',
             credentials: 'include'  // Important for session cookies
         })
         .then(response => {
+            console.log('Logout response:', response.ok);
             if (response.ok) {
                 // Hide logout, show login button
                 logoutButton.addClass('d-none');
@@ -52,11 +57,13 @@ $(document).ready(function() {
     });
 
     function checkLoginStatus() {
+        console.log('Checking login status');
         fetch('/api/check-login', {
             credentials: 'include'  // Important for session cookies
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Login status:', data.isLoggedIn);
             if (data.isLoggedIn) {
                 // User is logged in
                 loginButton.addClass('d-none');

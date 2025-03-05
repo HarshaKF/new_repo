@@ -62,18 +62,27 @@ app.post('/api/login', async (req, res) => {
 
 // Logout Route
 app.post('/api/logout', (req, res) => {
+    console.log('Logout request received');
+    console.log('Current session:', req.session);
+    
     req.session.destroy((err) => {
         if (err) {
-            return res.status(500).json({ success: false });
+            console.error('Logout error:', err);
+            return res.status(500).json({ success: false, error: err.message });
         }
+        console.log('Logout successful');
         res.json({ success: true });
     });
 });
 
 // Login Status Check
 app.get('/api/check-login', (req, res) => {
+    console.log('Login status check request received');
+    console.log('Current session:', req.session);
+    
     res.json({ 
-        isLoggedIn: !!req.session.user 
+        isLoggedIn: !!req.session.user,
+        user: req.session.user ? { username: req.session.user.username } : null
     });
 });
 
