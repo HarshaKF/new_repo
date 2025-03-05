@@ -13,7 +13,9 @@ app.post('/api/logout', (req, res) => {
         }
         res.json({ success: true });
     });
-});$(document).ready(function() {
+});
+
+$(document).ready(function() {
     const loginButton = $('#loginButton');
     const logoutButton = $('#logoutButton');
 
@@ -28,7 +30,8 @@ app.post('/api/logout', (req, res) => {
     // Logout button click handler
     logoutButton.on('click', function() {
         fetch('/api/logout', {
-            method: 'POST'
+            method: 'POST',
+            credentials: 'include'  // Important for session cookies
         })
         .then(response => {
             if (response.ok) {
@@ -44,12 +47,14 @@ app.post('/api/logout', (req, res) => {
         })
         .catch(error => {
             console.error('Logout error:', error);
-            showAlert('Logout failed. Please try again.', 'danger');
+            alert('Logout failed. Please try again.');
         });
     });
 
     function checkLoginStatus() {
-        fetch('/api/check-login')
+        fetch('/api/check-login', {
+            credentials: 'include'  // Important for session cookies
+        })
         .then(response => response.json())
         .then(data => {
             if (data.isLoggedIn) {
