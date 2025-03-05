@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,9 +23,17 @@ const pool = mysql.createPool({
 });
 
 // Middleware
+app.use(cors()); // Add CORS support
 app.use(bodyParser.json());
+app.use(express.json()); // Additional JSON parser
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'admin')));
+
+// Logging middleware for debugging
+app.use((req, res, next) => {
+    console.log(`Received ${req.method} request to ${req.path}`);
+    next();
+});
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your_secret_key',
@@ -46,29 +55,59 @@ const requireAuth = (req, res, next) => {
 
 // User Registration Route
 app.post('/api/register', async (req, res) => {
+    console.log('Registration request received:', req.body);
     const { username, password, email, role } = req.body;
+    
+    // Validate input
     if (!username || !password || !email) {
-        return res.status(400).json({ success: false, message: 'All fields are required' });
+        console.error('Registration validation failed: Missing required fields');
+        return res.status(400).json({ 
+            success: false, 
+            message: 'Username, password, and email are required' 
+        });
     }
 
     try {
+        // Check if user already exists
         const [existingUsers] = await pool.execute(
             'SELECT * FROM users WHERE username = ? OR email = ?', 
             [username, email]
         );
+
         if (existingUsers.length > 0) {
-            return res.status(409).json({ success: false, message: 'Username or email already exists' });
+            console.error('Registration failed: User already exists');
+            return res.status(409).json({ 
+                success: false, 
+                message: 'Username or email already exists' 
+            });
         }
         
+        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
-        await pool.execute(
+
+        // Insert new user
+        const [result] = await pool.execute(
             'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)', 
             [username, hashedPassword, email, role || 'STAFF']
         );
-        res.status(201).json({ success: true, message: 'User registered successfully' });
+
+        console.log('User registered successfully:', username);
+        res.status(201).json({ 
+            success: true, 
+            message: 'User registered successfully',
+            userId: result.insertId 
+        });
     } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ success: false, message: 'Server error during registration' });
+        console.error('Detailed registration error:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+        });
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error during registration',
+            error: error.message 
+        });
     }
 });
 
