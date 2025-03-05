@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Example backend endpoint for login status check
 app.get('/api/check-login', (req, res) => {
     res.json({ 
@@ -71,9 +70,6 @@ app.post('/api/logout', (req, res) => {
         });
     }
 
-=======
-$(document).ready(function() {
->>>>>>> origin2/main
     // Initialize DataTable with error handling
     try {
         const enrollmentsTable = $('#enrollmentsTable').DataTable({
