@@ -21,6 +21,7 @@ const pool = mysql.createPool({
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'admin')));
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
