@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 // Database Connection
 const pool = mysql.createPool({
     host: 'localhost',
-    user: 'root',
-    password: 'root123',
+    user: 'just_glance_app',
+    password: 'your_app_password',
     database: 'just_glance_tuition',
     waitForConnections: true,
     connectionLimit: 10,
