@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables at the beginning
+
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -10,10 +12,10 @@ const PORT = process.env.PORT || 3000;
 
 // Database Connection
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'just_glance_app',
-    password: 'your_app_password',
-    database: 'just_glance_tuition',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'just_glance_app',
+    password: process.env.DB_PASSWORD || 'your_app_password',
+    database: process.env.DB_NAME || 'just_glance_tuition',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -23,8 +25,9 @@ const pool = mysql.createPool({
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'admin')));
+
 app.use(session({
-    secret: 'your_secret_key',
+    secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
     saveUninitialized: true,
     cookie: { 
@@ -36,10 +39,9 @@ app.use(session({
 // Authentication Middleware
 const requireAuth = (req, res, next) => {
     if (req.session.user) {
-        next();
-    } else {
-        res.status(401).json({ error: 'Unauthorized' });
+        return next();
     }
+    res.status(401).json({ error: 'Unauthorized' });
 };
 
 // User Registration Route
@@ -81,6 +83,7 @@ app.post('/api/login', async (req, res) => {
         req.session.user = users[0];
         res.json({ success: true, user: { username: users[0].username } });
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
