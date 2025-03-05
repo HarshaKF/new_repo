@@ -30,10 +30,16 @@ $(document).ready(function() {
             })
         })
         .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw err; });
-            }
-            return response.json();
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
+            // Log full response for debugging
+            return response.json().then(data => {
+                if (!response.ok) {
+                    throw new Error(data.message || 'Registration failed');
+                }
+                return data;
+            });
         })
         .then(data => {
             if (data.success) {
@@ -44,8 +50,16 @@ $(document).ready(function() {
             }
         })
         .catch(error => {
-            console.error('Registration error:', error);
-            errorMessage.removeClass('d-none').text(error.message || 'An unexpected error occurred');
+            console.error('Full registration error:', {
+                message: error.message,
+                name: error.name,
+                stack: error.stack
+            });
+            
+            // Display more informative error message
+            errorMessage
+                .removeClass('d-none')
+                .text(error.message || 'An unexpected error occurred during registration');
         });
     });
 });
