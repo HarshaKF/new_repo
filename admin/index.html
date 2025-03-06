@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Just Glance Tuition - Admin Portal</title>
+
+    <!-- Fallback Redirect for Non-JavaScript Users -->
+    <noscript>
+        <meta http-equiv="refresh" content="0; url=/admin/login.html">
+    </noscript>
 </head>
 <body>
     <p>Redirecting to login... If not redirected, <a href="/admin/login.html">click here</a>.</p>
 
-    <noscript>
-        <meta http-equiv="refresh" content="0;url=/admin/login.html">
-        <p>JavaScript is disabled. <a href="/admin/login.html">Click here</a> to proceed.</p>
-    </noscript>
-
     <script>
-        // Redirect after a short delay for smoother UX
+        // Smooth UX with a slight delay, prevents back button issues
         setTimeout(() => {
-            window.location.replace('/admin/login.html'); // Prevents back navigation
-        }, 1000);
+            window.location.replace('/admin/login.html');
+        }, 2000);
     </script>
 </body>
 </html>
